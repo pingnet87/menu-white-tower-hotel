@@ -42,7 +42,7 @@
             position: relative;
         }
         
-        /* تصميم الشعار الجديد */
+        /* تصميم الشعار */
         .logo-container {
             position: relative;
             padding: 1.5rem 1rem;
@@ -62,11 +62,6 @@
             padding: 5px;
             transform: translateY(0);
             transition: all 0.3s ease;
-        }
-        
-        .logo-img:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2), 0 0 0 4px var(--gold);
         }
         
         .hotel-name {
@@ -95,7 +90,7 @@
             margin-top: 0.5rem;
         }
         
-        /* باقي الأنماط... */
+        /* أقسام القائمة */
         .menu-section {
             padding: 1.5rem;
         }
@@ -214,7 +209,7 @@
             }
         }
         
-        /* تأثيرات خاصة */
+        /* تأثيرات الحركة */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -227,14 +222,14 @@
 </head>
 <body>
     <div class="container">
-        <!-- تصميم الشعار المحسن -->
+        <!-- تصميم الشعار -->
         <div class="logo-container">
             <img src="images%20(2).jpg" alt="شعار فندق البرج الأبيض" class="logo-img">
             <h1 class="hotel-name">فندق البرج الأبيض</h1>
             <p class="subtitle">قائمة المشروبات الفاخرة</p>
         </div>
         
-        <!-- قسم المشروبات الباردة -->
+        <!-- المشروبات الباردة -->
         <div class="menu-section">
             <h2 class="section-title">
                 <i class="fas fa-glass-whiskey" style="margin-left: 8px;"></i>
@@ -259,11 +254,54 @@
                     </div>
                 </div>
                 
-                <!-- باقي المشروبات بنفس النمط -->
+                <!-- بيبسي -->
+                <div class="menu-item">
+                    <div class="item-image" style="background-image: url('3.jpg')"></div>
+                    <div class="item-content">
+                        <div class="item-name">بيبسي</div>
+                        <div class="item-price">1,000 دينار</div>
+                    </div>
+                </div>
+                
+                <!-- بيبسي دايت -->
+                <div class="menu-item">
+                    <div class="item-image" style="background-image: url('4.jpg')"></div>
+                    <div class="item-content">
+                        <div class="item-name">بيبسي دايت</div>
+                        <div class="item-price">1,000 دينار</div>
+                    </div>
+                </div>
+                
+                <!-- عصير برتقال -->
+                <div class="menu-item">
+                    <div class="item-image" style="background-image: url('5.jpg')"></div>
+                    <div class="item-content">
+                        <div class="item-name">عصير برتقال</div>
+                        <div class="item-price">4,000 دينار</div>
+                    </div>
+                </div>
+                
+                <!-- عصير ليمون -->
+                <div class="menu-item">
+                    <div class="item-image" style="background-image: url('6.jpg')"></div>
+                    <div class="item-content">
+                        <div class="item-name">عصير ليمون</div>
+                        <div class="item-price">4,000 دينار</div>
+                    </div>
+                </div>
+                
+                <!-- عصير موز بالعسل -->
+                <div class="menu-item">
+                    <div class="item-image" style="background-image: url('7.jpg')"></div>
+                    <div class="item-content">
+                        <div class="item-name">عصير موز بالعسل</div>
+                        <div class="item-price">5,000 دينار</div>
+                    </div>
+                </div>
             </div>
         </div>
         
-        <!-- قسم المشروبات الساخنة -->
+        <!-- المشروبات الساخنة -->
         <div class="menu-section">
             <h2 class="section-title">
                 <i class="fas fa-coffee" style="margin-left: 8px;"></i>
@@ -279,7 +317,50 @@
                     </div>
                 </div>
                 
-                <!-- باقي المشروبات بنفس النمط -->
+                <!-- إسبريسو صغير -->
+                <div class="menu-item">
+                    <div class="item-image" style="background-image: url('9.jpg')"></div>
+                    <div class="item-content">
+                        <div class="item-name">إسبريسو صغير</div>
+                        <div class="item-price">3,000 دينار</div>
+                    </div>
+                </div>
+                
+                <!-- كابتشينو -->
+                <div class="menu-item">
+                    <div class="item-image" style="background-image: url('10.jpg')"></div>
+                    <div class="item-content">
+                        <div class="item-name">كابتشينو</div>
+                        <div class="item-price">3,500 دينار</div>
+                    </div>
+                </div>
+                
+                <!-- نسكافيه -->
+                <div class="menu-item">
+                    <div class="item-image" style="background-image: url('11.jpg')"></div>
+                    <div class="item-content">
+                        <div class="item-name">نسكافيه</div>
+                        <div class="item-price">3,000 دينار</div>
+                    </div>
+                </div>
+                
+                <!-- قهوة تركية -->
+                <div class="menu-item">
+                    <div class="item-image" style="background-image: url('12.jpg')"></div>
+                    <div class="item-content">
+                        <div class="item-name">قهوة تركية</div>
+                        <div class="item-price">3,500 دينار</div>
+                    </div>
+                </div>
+                
+                <!-- شاي -->
+                <div class="menu-item">
+                    <div class="item-image" style="background-image: url('13.jpg')"></div>
+                    <div class="item-content">
+                        <div class="item-name">شاي</div>
+                        <div class="item-price">1,000 دينار</div>
+                    </div>
+                </div>
             </div>
         </div>
         
