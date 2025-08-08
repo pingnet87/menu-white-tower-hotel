@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قائمة المشروبات - فندق البرج الأبيض</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap');
+        
+        :root {
+            --primary: #2c3e50;
+            --secondary: #8e44ad;
+            --accent: #e67e22;
+            --light: #f5f5f5;
+            --dark: #2c3e50;
+            --text: #333;
+            --gold: #f1c40f;
+            --shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(to right, var(--secondary), var(--primary));
+            color: white;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .hotel-logo {
+            width: 180px;
+            margin: 0 auto 15px;
+            display: block;
+        }
+        
+        h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .menu-section {
+            padding: 20px;
+        }
+        
+        .section-title {
+            color: var(--secondary);
+            font-size: 22px;
+            margin: 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light);
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title i {
+            margin-left: 10px;
+        }
+        
+        .menu-items {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        
+        .menu-item {
+            display: flex;
+            background: var(--light);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .menu-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+        }
+        
+        .item-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            flex-shrink: 0;
+            background-color: #eee;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .item-content {
+            padding: 15px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        
+        .item-name {
+            font-weight: 600;
+            font-size: 17px;
+        }
+        
+        .item-price {
+            background: var(--accent);
+            color: white;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 15px;
+            white-space: nowrap;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: var(--light);
+            color: var(--text);
+            font-size: 14px;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                border-radius: 0;
+            }
+            
+            header {
+                padding: 20px 15px;
+            }
+            
+            .hotel-logo {
+                width: 150px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .menu-item {
+                flex-direction: column;
+            }
+            
+            .item-image {
+                width: 100%;
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="images%20(2).jpg" alt="شعار فندق البرج الأبيض" class="hotel-logo">
+            <h1>فندق البرج الأبيض</h1>
+            <p class="subtitle">قائمة المشروبات - الأسعار بالدينار العراقي</p>
+        </header>
+        
+        <div class="menu-section">
+            <h2 class="section-title">
+                <i class="fas fa-glass-whiskey"></i>
+                المشروبات الباردة
+            </h2>
+            <div class="menu-items">
+                <!-- مياه معدنية -->
+                <div class="menu-item">
+                    <div class="item-image" style="background-image: url('1.jpg')"></div>
+                    <div class="item-content">
+                        <div class="item-header">
+                            <span class="item-name">مياه معدنية (500 مل)</span>
+                            <span class="item-price">500 دينار</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- حليب -->
+                <div class="menu-item">
+                    <div class="item-image" style="background-image: url('2.jpg')"></div>
+                    <div class="item-content">
+                        <div class="item-header">
+                            <span class="item-name">حليب</span>
+                            <span class="item-price">2,000 دينار</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- بيبسي -->
+                <div class="menu-item">
+                    <div class="item-image" style="background-image: url('3.jpg')"></div>
+                    <div class="item-content">
+                        <div class="item-header">
+                            <span class="item-name">بيبسي</span>
+                            <span class="item-price">1,000 دينار</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- بيبسي دايت -->
+                <div class="menu-item">
+                    <div class="item-image" style="background-image: url('4.jpg')"></div>
+                    <div class="item-content">
+                        <div class="item-header">
+                            <span class="item-name">بيبسي دايت</span>
+                            <span class="item-price">1,000 دينار</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- عصير برتقال -->
+                <div class="menu-item">
+                    <div class="item-image" style="background-image: url('5.jpg')"></div>
+                    <div class="item-content">
+                        <div class="item-header">
+                            <span class="item-name">عصير برتقال</span>
+                            <span class="item-price">4,000 دينار</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- عصير ليمون -->
+                <div class="menu-item">
+                    <div class="item-image" style="background-image: url('6.jpg')"></div>
+                    <div class="item-content">
+                        <div class="item-header">
+                            <span class="item-name">عصير ليمون</span>
+                            <span class="item-price">4,000 دينار</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- عصير موز بالعسل -->
+                <div class="menu-item">
+                    <div class="item-image" style="background-image: url('7.jpg')"></div>
+                    <div class="item-content">
+                        <div class="item-header">
+                            <span class="item-name">عصير موز بالعسل</span>
+                            <span class="item-price">5,000 دينار</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="menu-section">
+            <h2 class="section-title">
+                <i class="fas fa-coffee"></i>
+                المشروبات الساخنة
+            </h2>
+            <div class="menu-items">
+                <!-- إسبريسو كبير -->
+                <div class="menu-item">
+                    <div class="item-image" style="background-image: url('8.jpg')"></div>
+                    <div class="item-content">
+                        <div class="item-header">
+                            <span class="item-name">إسبريسو كبير</span>
+                            <span class="item-price">5,000 دينار</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- إسبريسو صغير -->
+                <div class="menu-item">
+                    <div class="item-image" style="background-image: url('9.jpg')"></div>
+                    <div class="item-content">
+                        <div class="item-header">
+                            <span class="item-name">إسبريسو صغير</span>
+                            <span class="item-price">3,000 دينار</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- كابتشينو -->
+                <div class="menu-item">
+                    <div class="item-image" style="background-image: url('10.jpg')"></div>
+                    <div class="item-content">
+                        <div class="item-header">
+                            <span class="item-name">كابتشينو</span>
+                            <span class="item-price">3,500 دينار</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- نسكافيه -->
+                <div class="menu-item">
+                    <div class="item-image" style="background-image: url('11.jpg')"></div>
+                    <div class="item-content">
+                        <div class="item-header">
+                            <span class="item-name">نسكافيه</span>
+                            <span class="item-price">3,000 دينار</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- قهوة تركية -->
+                <div class="menu-item">
+                    <div class="item-image" style="background-image: url('12.jpg')"></div>
+                    <div class="item-content">
+                        <div class="item-header">
+                            <span class="item-name">قهوة تركية</span>
+                            <span class="item-price">3,500 دينار</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- شاي -->
+                <div class="menu-item">
+                    <div class="item-image" style="background-image: url('13.jpg')"></div>
+                    <div class="item-content">
+                        <div class="item-header">
+                            <span class="item-name">شاي</span>
+                            <span class="item-price">1,000 دينار</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>شكراً لزيارتكم | فندق البرج الأبيض &copy; 2023</p>
+        </footer>
+    </div>
+</body>
+</html>
