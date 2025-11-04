@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>قائمة المشروبات - فندق البرج الأبيض</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- مكتبة qz-tray للطباعة -->
+    <script src="https://cdn.jsdelivr.net/npm/qz-tray@2.1.0/dist/js/qz-tray.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
         
@@ -90,47 +92,6 @@
             margin-top: 0.5rem;
         }
         
-        /* زر الطلبات */
-        .order-container {
-            padding: 1rem;
-            text-align: center;
-            background: var(--light);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        
-        .order-btn {
-            background: linear-gradient(135deg, var(--accent), #d35400);
-            color: white;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            box-shadow: var(--shadow);
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .order-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(230, 126, 34, 0.4);
-        }
-        
-        .order-btn:active {
-            transform: translateY(0);
-        }
-        
-        .order-btn.secondary {
-            background: linear-gradient(135deg, var(--secondary), #6c3483);
-        }
-        
         /* أقسام القائمة */
         .menu-section {
             padding: 1.5rem;
@@ -169,12 +130,7 @@
             box-shadow: var(--shadow);
             transition: all 0.3s ease;
             border: 1px solid rgba(0,0,0,0.05);
-            position: relative;
-        }
-        
-        .menu-item.selected {
-            border: 2px solid var(--accent);
-            box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.2);
+            cursor: pointer;
         }
         
         .menu-item:active {
@@ -221,103 +177,196 @@
             font-weight: 700;
             font-size: 1.1rem;
         }
-        
-        .quantity-controls {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 8px;
-        }
-        
-        .quantity-btn {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
+
+        /* زر الإضافة */
+        .add-btn {
             background: var(--secondary);
             color: white;
             border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+        }
+
+        .add-btn:active {
+            background: var(--primary);
+            transform: scale(0.9);
+        }
+
+        /* سلة الطلبات */
+        .cart-container {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+
+        .cart-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .cart-btn:active {
+            transform: scale(0.95);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #e74c3c;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* نافذة الطلبات */
+        .orders-modal {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .orders-content {
+            background: white;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 15px;
+            padding: 1.5rem;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .orders-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--light);
+        }
+
+        .orders-title {
+            color: var(--primary);
+            font-size: 1.4rem;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #666;
+            cursor: pointer;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .order-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .quantity-btn {
+            background: var(--light);
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
+        }
+
+        .order-quantity {
+            margin: 0 0.5rem;
             font-weight: bold;
         }
-        
-        .quantity {
-            font-weight: bold;
-            min-width: 20px;
+
+        .total-section {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 2px solid var(--light);
             text-align: center;
         }
-        
-        /* سلة الطلبات */
-        .order-summary {
-            position: fixed;
-            bottom: 0;
-            right: 0;
-            left: 0;
-            background: white;
-            box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
-            padding: 1rem;
-            transform: translateY(100%);
-            transition: transform 0.3s ease;
-            z-index: 100;
-            border-top-left-radius: 15px;
-            border-top-right-radius: 15px;
-            max-height: 70vh;
-            overflow-y: auto;
+
+        .total-price {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin: 1rem 0;
         }
-        
-        .order-summary.active {
-            transform: translateY(0);
-        }
-        
-        .order-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .order-title {
-            font-size: 1.2rem;
-            color: var(--primary);
-        }
-        
-        .close-order {
-            background: none;
+
+        .print-btn {
+            background: var(--secondary);
+            color: white;
             border: none;
-            font-size: 1.5rem;
-            color: #999;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-size: 1.1rem;
             cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            margin-bottom: 0.5rem;
         }
-        
-        .order-items {
-            margin-bottom: 1rem;
+
+        .print-btn:active {
+            background: var(--primary);
+            transform: scale(0.98);
         }
-        
-        .order-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.5rem 0;
-            border-bottom: 1px dashed #eee;
+
+        .print-thermal-btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
         }
-        
-        .order-total {
-            display: flex;
-            justify-content: space-between;
-            font-weight: bold;
-            font-size: 1.2rem;
-            padding: 1rem 0;
-            border-top: 2px solid var(--accent);
-            margin-top: 1rem;
-        }
-        
-        .no-items {
-            text-align: center;
-            color: #999;
-            padding: 1rem;
+
+        .print-thermal-btn:active {
+            background: #219653;
+            transform: scale(0.98);
         }
         
         footer {
@@ -363,142 +412,26 @@
         .menu-section {
             animation: fadeIn 0.5s ease-out;
         }
-        
-        /* تنسيق الطباعة */
-        @media print {
-            body, .container {
-                background: white;
-                box-shadow: none;
-                margin: 0;
-                padding: 0;
-            }
-            
-            .order-container, footer, .item-image, .quantity-controls {
-                display: none;
-            }
-            
-            .logo-container {
-                background: white !important;
-                color: black !important;
-                box-shadow: none;
-                padding: 0.5rem;
-            }
-            
-            .hotel-name {
-                color: black !important;
-                text-shadow: none;
-                font-size: 1.5rem;
-            }
-            
-            .subtitle {
-                color: #555 !important;
-            }
-            
-            .menu-section {
-                padding: 0.5rem;
-                page-break-inside: avoid;
-            }
-            
-            .section-title {
-                color: black;
-                font-size: 1.2rem;
-                border-bottom: 1px solid #ccc;
-            }
-            
-            .menu-items {
-                gap: 0.3rem;
-            }
-            
-            .menu-item {
-                box-shadow: none;
-                border: 1px solid #eee;
-                border-radius: 5px;
-                padding: 0.3rem;
-                flex-direction: row;
-                align-items: center;
-            }
-            
-            .item-content {
-                padding: 0.3rem;
-                flex-direction: row;
-                justify-content: space-between;
-                width: 100%;
-            }
-            
-            .item-name {
-                font-size: 0.9rem;
-                margin-bottom: 0;
-            }
-            
-            .item-price {
-                font-size: 0.9rem;
-            }
-            
-            .order-summary {
-                position: static;
-                transform: none;
-                box-shadow: none;
-                max-height: none;
-                page-break-after: always;
-            }
-        }
-        
-        /* طباعة الفاتورة */
-        .invoice {
+
+        /* حالة الطباعة */
+        .print-status {
+            text-align: center;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
             display: none;
         }
-        
-        @media print {
-            .invoice {
-                display: block;
-                padding: 10px;
-                font-family: 'Tajawal', sans-serif;
-            }
-            
-            .invoice-header {
-                text-align: center;
-                margin-bottom: 15px;
-                border-bottom: 1px solid #000;
-                padding-bottom: 10px;
-            }
-            
-            .invoice-title {
-                font-size: 18px;
-                font-weight: bold;
-                margin-bottom: 5px;
-            }
-            
-            .invoice-date {
-                font-size: 14px;
-                margin-bottom: 10px;
-            }
-            
-            .invoice-items {
-                width: 100%;
-                border-collapse: collapse;
-                margin-bottom: 15px;
-            }
-            
-            .invoice-items th, .invoice-items td {
-                border: 1px solid #000;
-                padding: 5px;
-                text-align: center;
-            }
-            
-            .invoice-total {
-                text-align: center;
-                font-weight: bold;
-                font-size: 16px;
-                margin-top: 10px;
-                border-top: 1px solid #000;
-                padding-top: 10px;
-            }
-            
-            .invoice-footer {
-                text-align: center;
-                margin-top: 20px;
-                font-size: 12px;
-            }
+
+        .print-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .print-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
         }
     </style>
 </head>
@@ -511,22 +444,6 @@
             <p class="subtitle">قائمة المشروبات الفاخرة</p>
         </div>
         
-        <!-- أزرار الطلبات -->
-        <div class="order-container">
-            <button class="order-btn" id="viewOrderBtn">
-                <i class="fas fa-shopping-cart"></i>
-                عرض الطلب (<span id="cartCount">0</span>)
-            </button>
-            <button class="order-btn secondary" onclick="printInvoice()">
-                <i class="fas fa-print"></i>
-                طباعة الفاتورة
-            </button>
-            <button class="order-btn" style="background: linear-gradient(135deg, #27ae60, #229954);" onclick="clearOrder()">
-                <i class="fas fa-trash"></i>
-                مسح الطلب
-            </button>
-        </div>
-        
         <!-- المشروبات الباردة -->
         <div class="menu-section">
             <h2 class="section-title">
@@ -534,7 +451,75 @@
                 المشروبات الباردة
             </h2>
             <div class="menu-items">
-                <!-- سيتم إضافة العناصر ديناميكياً -->
+                <!-- مياه معدنية -->
+                <div class="menu-item" onclick="addToCart('مياه معدنية (500 مل)', 500)">
+                    <div class="item-image" style="background-image: url('1.jpg')"></div>
+                    <div class="item-content">
+                        <div class="item-name">مياه معدنية (500 مل)</div>
+                        <div class="item-price">500 دينار</div>
+                        <button class="add-btn">+</button>
+                    </div>
+                </div>
+                
+                <!-- حليب -->
+                <div class="menu-item" onclick="addToCart('حليب', 2000)">
+                    <div class="item-image" style="background-image: url('2.jpg')"></div>
+                    <div class="item-content">
+                        <div class="item-name">حليب</div>
+                        <div class="item-price">2,000 دينار</div>
+                        <button class="add-btn">+</button>
+                    </div>
+                </div>
+                
+                <!-- بيبسي -->
+                <div class="menu-item" onclick="addToCart('بيبسي', 1000)">
+                    <div class="item-image" style="background-image: url('3.jpg')"></div>
+                    <div class="item-content">
+                        <div class="item-name">بيبسي</div>
+                        <div class="item-price">1,000 دينار</div>
+                        <button class="add-btn">+</button>
+                    </div>
+                </div>
+                
+                <!-- بيبسي دايت -->
+                <div class="menu-item" onclick="addToCart('بيبسي دايت', 1000)">
+                    <div class="item-image" style="background-image: url('4.jpg')"></div>
+                    <div class="item-content">
+                        <div class="item-name">بيبسي دايت</div>
+                        <div class="item-price">1,000 دينار</div>
+                        <button class="add-btn">+</button>
+                    </div>
+                </div>
+                
+                <!-- عصير برتقال -->
+                <div class="menu-item" onclick="addToCart('عصير برتقال', 4000)">
+                    <div class="item-image" style="background-image: url('5.jpg')"></div>
+                    <div class="item-content">
+                        <div class="item-name">عصير برتقال</div>
+                        <div class="item-price">4,000 دينار</div>
+                        <button class="add-btn">+</button>
+                    </div>
+                </div>
+                
+                <!-- عصير ليمون -->
+                <div class="menu-item" onclick="addToCart('عصير ليمون', 4000)">
+                    <div class="item-image" style="background-image: url('6.jpg')"></div>
+                    <div class="item-content">
+                        <div class="item-name">عصير ليمون</div>
+                        <div class="item-price">4,000 دينار</div>
+                        <button class="add-btn">+</button>
+                    </div>
+                </div>
+                
+                <!-- عصير موز بالعسل -->
+                <div class="menu-item" onclick="addToCart('عصير موز بالعسل', 5000)">
+                    <div class="item-image" style="background-image: url('7.jpg')"></div>
+                    <div class="item-content">
+                        <div class="item-name">عصير موز بالعسل</div>
+                        <div class="item-price">5,000 دينار</div>
+                        <button class="add-btn">+</button>
+                    </div>
+                </div>
             </div>
         </div>
         
@@ -545,50 +530,100 @@
                 المشروبات الساخنة
             </h2>
             <div class="menu-items">
-                <!-- سيتم إضافة العناصر ديناميكياً -->
+                <!-- إسبريسو كبير -->
+                <div class="menu-item" onclick="addToCart('إسبريسو كبير', 5000)">
+                    <div class="item-image" style="background-image: url('8.jpg')"></div>
+                    <div class="item-content">
+                        <div class="item-name">إسبريسو كبير</div>
+                        <div class="item-price">5,000 دينار</div>
+                        <button class="add-btn">+</button>
+                    </div>
+                </div>
+                
+                <!-- إسبريسو صغير -->
+                <div class="menu-item" onclick="addToCart('إسبريسو صغير', 3000)">
+                    <div class="item-image" style="background-image: url('9.jpg')"></div>
+                    <div class="item-content">
+                        <div class="item-name">إسبريسو صغير</div>
+                        <div class="item-price">3,000 دينار</div>
+                        <button class="add-btn">+</button>
+                    </div>
+                </div>
+                
+                <!-- كابتشينو -->
+                <div class="menu-item" onclick="addToCart('كابتشينو', 3500)">
+                    <div class="item-image" style="background-image: url('10.jpg')"></div>
+                    <div class="item-content">
+                        <div class="item-name">كابتشينو</div>
+                        <div class="item-price">3,500 دينار</div>
+                        <button class="add-btn">+</button>
+                    </div>
+                </div>
+                
+                <!-- نسكافيه -->
+                <div class="menu-item" onclick="addToCart('نسكافيه', 3000)">
+                    <div class="item-image" style="background-image: url('11.jpg')"></div>
+                    <div class="item-content">
+                        <div class="item-name">نسكافيه</div>
+                        <div class="item-price">3,000 دينار</div>
+                        <button class="add-btn">+</button>
+                    </div>
+                </div>
+                
+                <!-- قهوة تركية -->
+                <div class="menu-item" onclick="addToCart('قهوة تركية', 3500)">
+                    <div class="item-image" style="background-image: url('12.jpg')"></div>
+                    <div class="item-content">
+                        <div class="item-name">قهوة تركية</div>
+                        <div class="item-price">3,500 دينار</div>
+                        <button class="add-btn">+</button>
+                    </div>
+                </div>
+                
+                <!-- شاي -->
+                <div class="menu-item" onclick="addToCart('شاي', 1000)">
+                    <div class="item-image" style="background-image: url('13.jpg')"></div>
+                    <div class="item-content">
+                        <div class="item-name">شاي</div>
+                        <div class="item-price">1,000 دينار</div>
+                        <button class="add-btn">+</button>
+                    </div>
+                </div>
             </div>
         </div>
-        
+
         <!-- سلة الطلبات -->
-        <div class="order-summary" id="orderSummary">
-            <div class="order-header">
-                <h3 class="order-title">طلباتك</h3>
-                <button class="close-order" id="closeOrderBtn">&times;</button>
-            </div>
-            <div class="order-items" id="orderItems">
-                <div class="no-items">لا توجد عناصر في السلة</div>
-            </div>
-            <div class="order-total">
-                <span>المجموع:</span>
-                <span id="orderTotal">0 دينار</span>
-            </div>
+        <div class="cart-container">
+            <button class="cart-btn" onclick="showOrders()">
+                <i class="fas fa-shopping-cart"></i>
+                <div class="cart-badge" id="cartBadge">0</div>
+            </button>
         </div>
-        
-        <!-- الفاتورة للطباعة -->
-        <div class="invoice" id="invoice">
-            <div class="invoice-header">
-                <div class="invoice-title">فندق البرج الأبيض</div>
-                <div>قائمة المشروبات الفاخرة</div>
-                <div class="invoice-date" id="invoiceDate"></div>
-            </div>
-            <table class="invoice-items">
-                <thead>
-                    <tr>
-                        <th>الصنف</th>
-                        <th>الكمية</th>
-                        <th>السعر</th>
-                        <th>المجموع</th>
-                    </tr>
-                </thead>
-                <tbody id="invoiceItems">
-                    <!-- سيتم ملؤها بالبيانات -->
-                </tbody>
-            </table>
-            <div class="invoice-total">
-                المجموع الكلي: <span id="invoiceTotal">0</span> دينار
-            </div>
-            <div class="invoice-footer">
-                شكراً لزيارتكم - نتمنى لكم تجربة ممتعة
+
+        <!-- نافذة الطلبات -->
+        <div class="orders-modal" id="ordersModal">
+            <div class="orders-content">
+                <div class="orders-header">
+                    <h3 class="orders-title">طلباتي</h3>
+                    <button class="close-btn" onclick="hideOrders()">×</button>
+                </div>
+                
+                <!-- حالة الطباعة -->
+                <div id="printStatus" class="print-status"></div>
+                
+                <div id="ordersList">
+                    <!-- الطلبات تظهر هنا -->
+                </div>
+                <div class="total-section">
+                    <div>المجموع الكلي:</div>
+                    <div class="total-price" id="totalPrice">0 دينار</div>
+                    <button class="print-btn" onclick="printOrder()">
+                        <i class="fas fa-print"></i> طباعة عادية
+                    </button>
+                    <button class="print-thermal-btn" onclick="printThermal()">
+                        <i class="fas fa-receipt"></i> طباعة على الطابعة الحرارية
+                    </button>
+                </div>
             </div>
         </div>
         
@@ -598,249 +633,385 @@
     </div>
 
     <script>
-        // بيانات القائمة
-        const menuItems = {
-            cold: [
-                { id: 1, name: "مياه معدنية (500 مل)", price: 500, image: "1.jpg" },
-                { id: 2, name: "حليب", price: 2000, image: "2.jpg" },
-                { id: 3, name: "بيبسي", price: 1000, image: "3.jpg" },
-                { id: 4, name: "بيبسي دايت", price: 1000, image: "4.jpg" },
-                { id: 5, name: "عصير برتقال", price: 4000, image: "5.jpg" },
-                { id: 6, name: "عصير ليمون", price: 4000, image: "6.jpg" },
-                { id: 7, name: "عصير موز بالعسل", price: 5000, image: "7.jpg" }
-            ],
-            hot: [
-                { id: 8, name: "إسبريسو كبير", price: 5000, image: "8.jpg" },
-                { id: 9, name: "إسبريسو صغير", price: 3000, image: "9.jpg" },
-                { id: 10, name: "كابتشينو", price: 3500, image: "10.jpg" },
-                { id: 11, name: "نسكافيه", price: 3000, image: "11.jpg" },
-                { id: 12, name: "قهوة تركية", price: 3500, image: "12.jpg" },
-                { id: 13, name: "شاي", price: 1000, image: "13.jpg" }
-            ]
-        };
-
-        // سلة المشتريات
         let cart = [];
-
+        let isQZConnected = false;
+        
         // إظهار السنة الحالية تلقائياً
         document.getElementById('year').textContent = new Date().getFullYear();
-
-        // تحميل القائمة
-        document.addEventListener('DOMContentLoaded', function() {
-            loadMenuItems();
-            updateCartUI();
+        
+        // إضافة منتج إلى السلة
+        function addToCart(name, price) {
+            const existingItem = cart.find(item => item.name === name);
             
-            // إضافة مستمعي الأحداث للأزرار
-            document.getElementById('viewOrderBtn').addEventListener('click', toggleOrderSummary);
-            document.getElementById('closeOrderBtn').addEventListener('click', toggleOrderSummary);
-        });
-
-        // تحميل عناصر القائمة
-        function loadMenuItems() {
-            const coldItemsContainer = document.querySelector('.menu-section:first-child .menu-items');
-            const hotItemsContainer = document.querySelector('.menu-section:last-child .menu-items');
-            
-            // إضافة المشروبات الباردة
-            menuItems.cold.forEach(item => {
-                coldItemsContainer.appendChild(createMenuItemElement(item));
-            });
-            
-            // إضافة المشروبات الساخنة
-            menuItems.hot.forEach(item => {
-                hotItemsContainer.appendChild(createMenuItemElement(item));
-            });
-        }
-
-        // إنشاء عنصر قائمة
-        function createMenuItemElement(item) {
-            const div = document.createElement('div');
-            div.className = 'menu-item';
-            div.dataset.id = item.id;
-            
-            div.innerHTML = `
-                <div class="item-image" style="background-image: url('${item.image}')"></div>
-                <div class="item-content">
-                    <div class="item-name">${item.name}</div>
-                    <div class="item-price">${item.price.toLocaleString()} دينار</div>
-                    <div class="quantity-controls">
-                        <button class="quantity-btn minus" onclick="decreaseQuantity(${item.id})">-</button>
-                        <span class="quantity">0</span>
-                        <button class="quantity-btn plus" onclick="increaseQuantity(${item.id})">+</button>
-                    </div>
-                </div>
-            `;
-            
-            return div;
-        }
-
-        // زيادة كمية الصنف
-        function increaseQuantity(itemId) {
-            const item = findMenuItem(itemId);
-            if (!item) return;
-            
-            const cartItem = cart.find(i => i.id === itemId);
-            if (cartItem) {
-                cartItem.quantity++;
+            if (existingItem) {
+                existingItem.quantity += 1;
             } else {
                 cart.push({
-                    id: item.id,
-                    name: item.name,
-                    price: item.price,
+                    name: name,
+                    price: price,
                     quantity: 1
                 });
             }
             
             updateCartUI();
         }
-
-        // تقليل كمية الصنف
-        function decreaseQuantity(itemId) {
-            const cartItem = cart.find(i => i.id === itemId);
-            if (!cartItem) return;
-            
-            if (cartItem.quantity > 1) {
-                cartItem.quantity--;
-            } else {
-                cart = cart.filter(i => i.id !== itemId);
-            }
-            
-            updateCartUI();
-        }
-
-        // البحث عن عنصر في القائمة
-        function findMenuItem(itemId) {
-            for (const category in menuItems) {
-                const item = menuItems[category].find(i => i.id === itemId);
-                if (item) return item;
-            }
-            return null;
-        }
-
-        // تحديث واجهة سلة المشتريات
+        
+        // تحديث واجهة السلة
         function updateCartUI() {
+            const cartBadge = document.getElementById('cartBadge');
+            const ordersList = document.getElementById('ordersList');
+            const totalPrice = document.getElementById('totalPrice');
+            
             // تحديث العداد
             const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            document.getElementById('cartCount').textContent = totalItems;
+            cartBadge.textContent = totalItems;
             
-            // تحديث عناصر القائمة
-            document.querySelectorAll('.menu-item').forEach(itemEl => {
-                const itemId = parseInt(itemEl.dataset.id);
-                const cartItem = cart.find(i => i.id === itemId);
-                const quantityEl = itemEl.querySelector('.quantity');
-                
-                if (cartItem) {
-                    quantityEl.textContent = cartItem.quantity;
-                    itemEl.classList.add('selected');
-                } else {
-                    quantityEl.textContent = '0';
-                    itemEl.classList.remove('selected');
-                }
-            });
-            
-            // تحديث سلة الطلبات
-            const orderItemsContainer = document.getElementById('orderItems');
-            const orderTotalEl = document.getElementById('orderTotal');
-            
-            if (cart.length === 0) {
-                orderItemsContainer.innerHTML = '<div class="no-items">لا توجد عناصر في السلة</div>';
-                orderTotalEl.textContent = '0 دينار';
-            } else {
-                let itemsHTML = '';
-                let total = 0;
-                
-                cart.forEach(item => {
-                    const itemTotal = item.price * item.quantity;
-                    total += itemTotal;
-                    
-                    itemsHTML += `
-                        <div class="order-item">
-                            <div>
-                                <div>${item.name}</div>
-                                <div style="font-size: 0.8rem; color: #666;">${item.price.toLocaleString()} دينار × ${item.quantity}</div>
-                            </div>
-                            <div>${itemTotal.toLocaleString()} دينار</div>
-                        </div>
-                    `;
-                });
-                
-                orderItemsContainer.innerHTML = itemsHTML;
-                orderTotalEl.textContent = total.toLocaleString() + ' دينار';
-            }
-        }
-
-        // عرض/إخفاء سلة الطلبات
-        function toggleOrderSummary() {
-            const orderSummary = document.getElementById('orderSummary');
-            orderSummary.classList.toggle('active');
-        }
-
-        // طباعة الفاتورة
-        function printInvoice() {
-            if (cart.length === 0) {
-                alert('السلة فارغة. أضف بعض العناصر أولاً.');
-                return;
-            }
-            
-            // تحديث بيانات الفاتورة
-            const invoiceItemsContainer = document.getElementById('invoiceItems');
-            const invoiceTotalEl = document.getElementById('invoiceTotal');
-            const invoiceDateEl = document.getElementById('invoiceDate');
-            
-            let itemsHTML = '';
+            // تحديث قائمة الطلبات
+            ordersList.innerHTML = '';
             let total = 0;
             
-            cart.forEach(item => {
+            cart.forEach((item, index) => {
                 const itemTotal = item.price * item.quantity;
                 total += itemTotal;
                 
-                itemsHTML += `
-                    <tr>
-                        <td>${item.name}</td>
-                        <td>${item.quantity}</td>
-                        <td>${item.price.toLocaleString()}</td>
-                        <td>${itemTotal.toLocaleString()}</td>
-                    </tr>
+                const orderItem = document.createElement('div');
+                orderItem.className = 'order-item';
+                orderItem.innerHTML = `
+                    <div>
+                        <div style="font-weight: bold;">${item.name}</div>
+                        <div style="color: var(--accent);">${item.price} دينار</div>
+                    </div>
+                    <div class="order-controls">
+                        <button class="quantity-btn" onclick="decreaseQuantity(${index})">-</button>
+                        <span class="order-quantity">${item.quantity}</span>
+                        <button class="quantity-btn" onclick="increaseQuantity(${index})">+</button>
+                        <button class="quantity-btn" onclick="removeItem(${index})" style="color: #e74c3c; margin-right: 10px;">×</button>
+                    </div>
                 `;
+                ordersList.appendChild(orderItem);
             });
             
-            invoiceItemsContainer.innerHTML = itemsHTML;
-            invoiceTotalEl.textContent = total.toLocaleString();
-            
-            // تاريخ اليوم
-            const now = new Date();
-            invoiceDateEl.textContent = now.toLocaleDateString('ar-EG') + ' ' + now.toLocaleTimeString('ar-EG');
-            
-            // طباعة الفاتورة
-            const invoiceElement = document.getElementById('invoice');
-            const originalContents = document.body.innerHTML;
-            
-            document.body.innerHTML = invoiceElement.innerHTML;
-            window.print();
-            document.body.innerHTML = originalContents;
-            
-            // إعادة تحميل المستمعين للأحداث
-            document.getElementById('viewOrderBtn').addEventListener('click', toggleOrderSummary);
-            document.getElementById('closeOrderBtn').addEventListener('click', toggleOrderSummary);
-            
+            // تحديث المجموع الكلي
+            totalPrice.textContent = total.toLocaleString() + ' دينار';
+        }
+        
+        // زيادة الكمية
+        function increaseQuantity(index) {
+            cart[index].quantity += 1;
             updateCartUI();
         }
-
-        // مسح الطلب
-        function clearOrder() {
+        
+        // تقليل الكمية
+        function decreaseQuantity(index) {
+            if (cart[index].quantity > 1) {
+                cart[index].quantity -= 1;
+            } else {
+                cart.splice(index, 1);
+            }
+            updateCartUI();
+        }
+        
+        // إزالة المنتج
+        function removeItem(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+        
+        // إظهار نافذة الطلبات
+        function showOrders() {
+            document.getElementById('ordersModal').style.display = 'flex';
+        }
+        
+        // إخفاء نافذة الطلبات
+        function hideOrders() {
+            document.getElementById('ordersModal').style.display = 'none';
+        }
+        
+        // طباعة عادية
+        function printOrder() {
             if (cart.length === 0) {
-                alert('لا توجد عناصر في السلة.');
+                showPrintStatus('السلة فارغة! أضف بعض المشروبات أولاً.', 'error');
                 return;
             }
             
-            if (confirm('هل أنت متأكد من رغبتك في مسح الطلب بالكامل؟')) {
-                cart = [];
-                updateCartUI();
-                toggleOrderSummary();
+            const printContent = generatePrintContent();
+            const printWindow = window.open('', '_blank');
+            
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html dir="rtl">
+                <head>
+                    <title>طباعة الطلب - فندق البرج الأبيض</title>
+                    <style>
+                        body { 
+                            font-family: Arial, sans-serif; 
+                            padding: 20px;
+                            direction: rtl;
+                        }
+                        .header { 
+                            text-align: center; 
+                            margin-bottom: 20px;
+                            border-bottom: 2px solid #333;
+                            padding-bottom: 10px;
+                        }
+                        .order-item { 
+                            display: flex; 
+                            justify-content: space-between; 
+                            margin: 10px 0;
+                            padding: 5px 0;
+                            border-bottom: 1px dashed #ccc;
+                        }
+                        .total { 
+                            font-weight: bold; 
+                            font-size: 1.2em; 
+                            text-align: center;
+                            margin-top: 20px;
+                            padding-top: 10px;
+                            border-top: 2px solid #333;
+                        }
+                        .timestamp {
+                            text-align: center;
+                            color: #666;
+                            margin: 10px 0;
+                        }
+                        @media print {
+                            body { margin: 0; }
+                        }
+                    </style>
+                </head>
+                <body>
+                    ${printContent}
+                </body>
+                </html>
+            `);
+            
+            printWindow.document.close();
+            printWindow.focus();
+            
+            setTimeout(() => {
+                printWindow.print();
+                printWindow.close();
+                clearCart();
+                showPrintStatus('تم طباعة الطلب بنجاح! 🎉', 'success');
+            }, 500);
+        }
+        
+        // طباعة على الطابعة الحرارية
+        async function printThermal() {
+            if (cart.length === 0) {
+                showPrintStatus('السلة فارغة! أضف بعض المشروبات أولاً.', 'error');
+                return;
+            }
+            
+            try {
+                // محاولة الطباعة المباشرة
+                await printToThermalPrinter();
+                showPrintStatus('تم إرسال الطلب إلى الطابعة الحرارية بنجاح! 🎉', 'success');
+                clearCart();
+            } catch (error) {
+                console.error('خطأ في الطباعة:', error);
+                showPrintStatus('خطأ في الطباعة: ' + error.message, 'error');
             }
         }
-
+        
+        // الطباعة على الطابعة الحرارية
+        async function printToThermalPrinter() {
+            const receiptContent = generateReceiptContent();
+            
+            // محاولة استخدام Web USB API للطباعة المباشرة
+            if ('usb' in navigator) {
+                try {
+                    await printViaWebUSB(receiptContent);
+                    return;
+                } catch (error) {
+                    console.log('Web USB failed, trying alternative methods');
+                }
+            }
+            
+            // محاولة استخدام QZ Tray
+            try {
+                await printViaQZTray(receiptContent);
+                return;
+            } catch (error) {
+                console.log('QZ Tray failed, trying fallback');
+            }
+            
+            // طريقة احتياطية - تحميل ملف نصي للطباعة
+            printViaTextFile(receiptContent);
+        }
+        
+        // الطباعة عبر Web USB
+        async function printViaWebUSB(content) {
+            // هذا مثال مبسط - تحتاج لتعديله حسب الطابعة الخاصة بك
+            const vendorId = 0x1234; // ضع Vendor ID الخاص بطابعتك
+            const productId = 0x5678; // ضع Product ID الخاص بطابعتك
+            
+            const device = await navigator.usb.requestDevice({ 
+                filters: [{ vendorId, productId }] 
+            });
+            
+            await device.open();
+            await device.selectConfiguration(1);
+            await device.claimInterface(0);
+            
+            const encoder = new TextEncoder();
+            const data = encoder.encode(content);
+            
+            await device.transferOut(1, data);
+            await device.close();
+        }
+        
+        // الطباعة عبر QZ Tray
+        async function printViaQZTray(content) {
+            if (!qz.websocket.isActive()) {
+                await qz.websocket.connect();
+            }
+            
+            const config = qz.configs.create("Printer Name"); // اسم الطابعة
+            
+            const data = [
+                {
+                    type: 'raw',
+                    data: content
+                }
+            ];
+            
+            await qz.print(config, data);
+        }
+        
+        // الطباعة عبر ملف نصي (طريقة احتياطية)
+        function printViaTextFile(content) {
+            const blob = new Blob([content], { type: 'text/plain; charset=arabic' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'طلب_مشروبات.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            showPrintStatus('تم حفظ الطلب في ملف. يرجى فتح الملف وطباعته يدوياً.', 'success');
+        }
+        
+        // إنشاء محتوى الإيصال للطابعة الحرارية
+        function generateReceiptContent() {
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const now = new Date();
+            const dateStr = now.toLocaleString('ar-EG');
+            
+            let content = '\x1B\x40'; // تهيئة الطابعة
+            content += '\x1B\x61\x01'; // محاذاة مركز
+            
+            // العنوان
+            content += 'فندق البرج الأبيض\n';
+            content += 'طلب مشروبات\n';
+            content += '====================\n';
+            
+            content += '\x1B\x61\x00'; // محاذاة يسار
+            
+            // التاريخ والوقت
+            content += `التاريخ: ${dateStr}\n`;
+            content += '====================\n';
+            
+            // تفاصيل الطلب
+            cart.forEach(item => {
+                const line = `${item.name} x${item.quantity}`;
+                const price = `${(item.price * item.quantity).toLocaleString()} دينار`;
+                content += line + '\n';
+                content += price.padStart(40 - line.length) + '\n';
+            });
+            
+            content += '====================\n';
+            content += '\x1B\x61\x02'; // محاذاة يمين
+            
+            // المجموع
+            content += `المجموع: ${total.toLocaleString()} دينار\n`;
+            content += '\n';
+            
+            // رسالة شكر
+            content += '\x1B\x61\x01'; // محاذاة مركز
+            content += 'شكراً لزيارتكم!\n';
+            content += 'نتمنى لكم إقامة سعيدة\n';
+            
+            // قص الورق
+            content += '\n\n\n\n\n';
+            content += '\x1B\x69'; // قص الورق (للبعض الطابعات)
+            content += '\x1B\x6D'; // قص الورق (للبعض الآخر)
+            
+            return content;
+        }
+        
+        // إنشاء محتوى الطباعة العادية
+        function generatePrintContent() {
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const now = new Date();
+            
+            let content = `
+                <div class="header">
+                    <h2>فندق البرج الأبيض</h2>
+                    <h3>طلب مشروبات</h3>
+                </div>
+                <div class="timestamp">
+                    ${now.toLocaleString('ar-EG')}
+                </div>
+            `;
+            
+            cart.forEach(item => {
+                content += `
+                    <div class="order-item">
+                        <span>${item.name} (${item.quantity})</span>
+                        <span>${(item.price * item.quantity).toLocaleString()} دينار</span>
+                    </div>
+                `;
+            });
+            
+            content += `
+                <div class="total">
+                    المجموع الكلي: ${total.toLocaleString()} دينار
+                </div>
+                <div style="text-align: center; margin-top: 30px; font-style: italic;">
+                    شكراً لزيارتكم! 🎉
+                </div>
+            `;
+            
+            return content;
+        }
+        
+        // تفريغ السلة
+        function clearCart() {
+            cart = [];
+            updateCartUI();
+            hideOrders();
+        }
+        
+        // إظهار حالة الطباعة
+        function showPrintStatus(message, type) {
+            const statusEl = document.getElementById('printStatus');
+            statusEl.textContent = message;
+            statusEl.className = `print-status print-${type}`;
+            statusEl.style.display = 'block';
+            
+            setTimeout(() => {
+                statusEl.style.display = 'none';
+            }, 5000);
+        }
+        
         // تحسينات للأجهزة المحمولة
         document.addEventListener('touchstart', function(){}, {passive: true});
+        
+        // إغلاق نافذة الطلبات عند النقر خارجها
+        document.getElementById('ordersModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                hideOrders();
+            }
+        });
+        
+        // تهيئة QZ Tray
+        qz.websocket.connect().then(() => {
+            isQZConnected = true;
+            console.log('QZ Tray connected');
+        }).catch(err => {
+            console.log('QZ Tray not available:', err);
+        });
     </script>
 </body>
 </html>
